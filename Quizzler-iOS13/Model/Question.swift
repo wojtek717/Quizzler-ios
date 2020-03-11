@@ -8,7 +8,12 @@
 
 import Foundation
 
-struct Question{
+class Question{
     let questionText : String
     let answer : Bool
+  
+  public init(questionText: String, answer: Bool) {
+    self.questionText = questionText
+    self.answer = answer
+  }
 }
