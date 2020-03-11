@@ -1,7 +1,5 @@
 import UIKit
 
-//TODO NAPRAWIC WYSWIETLANIA PROGRESS BARA, OSTATNIE PYTANIE ITP.
-
 protocol QuestionViewControllerPresenter: NSObject {
   func updateQuestionText(with value: String)
   func updateProgressBar(with value: Float)
@@ -9,35 +7,29 @@ protocol QuestionViewControllerPresenter: NSObject {
   func clearAnswer()
 }
 
-
-
 class QuestionViewCotroller: UIViewController {
-    
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+  
+  @IBOutlet private weak var questionLabel: UILabel!
+  @IBOutlet private weak var progressBar: UIProgressView!
+  @IBOutlet private weak var trueButton: UIButton!
+  @IBOutlet private weak var falseButton: UIButton!
   
   lazy var viewModel = QuestionViewModel(presenter: self)
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-    override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      viewModel.updateQuestionText(with: viewModel.getQuestionNumber())
-      viewModel.updateProgressBar()
-    }
-    
-    @IBAction func answerButtonPressed(_ sender: UIButton) {
-      viewModel.checkAnswer(for: sender.currentTitle!, forButton: sender)
-      viewModel.clearAnswerTime()
-      viewModel.updateQuestionNumber()
-      viewModel.updateQuestionText(with: viewModel.getQuestionNumber())
-      
-      //print(viewModel.getQuestionNumber())
-    }
+    viewModel.updateQuestionText(with: viewModel.getQuestionNumber())
+    viewModel.updateProgressBar()
+  }
+  
+  @IBAction private func answerButtonPressed(_ sender: UIButton) {
+    viewModel.checkAnswer(for: sender.currentTitle!, forButton: sender)
+    viewModel.clearAnswerTime()
+    viewModel.updateQuestionNumber()
+    viewModel.updateQuestionText(with: viewModel.getQuestionNumber())
+  }
 }
-
-
 
 extension QuestionViewCotroller: QuestionViewControllerPresenter{
   func updateQuestionText(with value: String){
@@ -50,9 +42,9 @@ extension QuestionViewCotroller: QuestionViewControllerPresenter{
   
   func displayAnswer(with value: Bool, for button: UIButton){
     if value {
-        button.backgroundColor = UIColor.green
+      button.backgroundColor = UIColor.green
     }else{
-        button.backgroundColor = UIColor.red
+      button.backgroundColor = UIColor.red
     }
   }
   
